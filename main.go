@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"log"
 	"middleware/controller"
 	"middleware/middleware"
@@ -9,6 +10,7 @@ import (
 )
 
 func main() {
+	loadEnvFiles()
 	startGin()
 }
 
@@ -34,5 +36,12 @@ func startGin() {
 	log.Println("Server start in port", port)
 	if err := router.Run(":" + port); err != nil {
 		log.Panicf("error: %s", err)
+	}
+}
+
+func loadEnvFiles() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Error loading .env file")
 	}
 }

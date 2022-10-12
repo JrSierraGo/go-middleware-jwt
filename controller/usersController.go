@@ -5,11 +5,11 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"middleware/models"
 	"net/http"
+	"os"
 	"time"
 )
 
 var userGlobal models.User
-var mySigningKey = "my-secret"
 
 func SignIn(ctx *gin.Context) {
 	var user models.User
@@ -39,6 +39,7 @@ func SignIn(ctx *gin.Context) {
 }
 
 func LogIn(ctx *gin.Context) {
+	mySigningKey := os.Getenv("SECRET_SIGN")
 	var user models.User
 	if err := ctx.Bind(&user); err != nil {
 		panic(err)

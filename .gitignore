@@ -167,4 +167,8 @@ fabric.properties
 # Ignore code-workspaces
 *.code-workspace
 
+#Ignore .env files
+.env
+.env.*
+
 # End of https://www.toptal.com/developers/gitignore/api/goland,visualstudiocode,go

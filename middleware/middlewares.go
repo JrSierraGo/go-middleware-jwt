@@ -5,11 +5,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
+	"os"
 )
 
-var mySigningKey = "my-secret"
-
 func ValidateAuth(context *gin.Context) {
+	mySigningKey := os.Getenv("SECRET_SIGN")
 	authorization := context.GetHeader("Authorization")
 	if authorization == "" {
 		context.AbortWithStatusJSON(http.StatusExpectationFailed, gin.H{
