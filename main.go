@@ -5,13 +5,30 @@ import (
 	"github.com/joho/godotenv"
 	"log"
 	"middleware/controller"
+	"middleware/database"
 	"middleware/middleware"
 	"os"
 )
 
 func main() {
 	loadEnvFiles()
+	initDB()
 	startGin()
+}
+
+func initDB() {
+	config := database.Config{
+		Host:     os.Getenv("DB_HOST"),
+		User:     os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
+		DBName:   os.Getenv("DB_NAME"),
+		Port:     os.Getenv("DB_PORT"),
+	}
+	connectionString := database.GetConnectionString(config)
+	err := database.Connect(connectionString)
+	if err != nil {
+		panic(err.Error())
+	}
 }
 
 func startGin() {
@@ -29,7 +46,7 @@ func startGin() {
 	usersRouter.Use(middleware.ValidateAuth)
 	usersRouter.GET("/list", controller.GetAllUsers)
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("Port")
 	if port == "" {
 		port = "8080"
 	}
